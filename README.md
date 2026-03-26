@@ -21,7 +21,7 @@ RDFace includes both **real pediatric facial images** and **synthetic data**, re
 The real dataset contains identifiable facial images and is distributed under controlled access.
 
 To request access:
-coming soon ...
+[RDFace-Real](https://docs.google.com/forms/d/e/1FAIpQLSfcakuM938g_8gGv1nKpPCOlgEyeNgFvvGW2ieCpnMFmh5Zyg/viewform?usp=dialog)
 
 - Approved users will receive a **Research ID**
 - Access is granted only for approved research purposes
