@@ -84,4 +84,4 @@ After downloading, place the weight file (e.g., `vgg_face.pth`) in folder `model
 
 ---
 ## Acknowledgement
-We thank the collaborators and institutions that contributed to data collection and discussion throughout this project. All data collection procedures received formal approval from the Western University Health Science Research Ethics Board (HSREB) (Reference number: 2023-122744-77394).
+This work was supported in part by the Canada Research Chairs Tier II Program (CRC-2021-00482) and the Canada Foundation for Innovation John R. Evans Leaders Fund (JELF) program (#43481). All data collection procedures were approved by the Western University Health Science Research Ethics Board (HSREB) (Reference No. 2023-122744-77394). Facial photographs of children with rare diseases were collected from publicly available sources, including the published literature and foundation websites, and we gratefully acknowledge these sources. We sincerely thank Dr. Patrick Frosk for his support in the design of the project. We also acknowledge the Digital Research Alliance of Canada and Compute Canada for providing the computational resources used in this study.
