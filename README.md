@@ -24,7 +24,7 @@ To request access:
 [RDFace-Real](https://docs.google.com/forms/d/e/1FAIpQLSfcakuM938g_8gGv1nKpPCOlgEyeNgFvvGW2ieCpnMFmh5Zyg/viewform?usp=dialog)
 
 - Approved users will receive a **Research ID**
-- Access is granted only for approved research purposes
+- Access is granted only for approved research purposes (ethics approval (e.g., REB.IRB) required)
 
 ### Usage Policy
 - Do not share or redistribute the data
