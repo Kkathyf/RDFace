@@ -76,7 +76,7 @@ After downloading, place the weight file (e.g., `vgg_face.pth`) in folder `model
 ```bash
 @inproceedings{rdface2026,
   title     = {RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation},
-  author    = {Ganlin Feng, Yuxi Long, Hafsa Ali, Erin Lou, Fahad Butt, Qian Liu, Yang Wang, Pingzhao Hu},
+  author    = {Ganlin Feng and Yuxi Long and Hafsa Ali and Erin Lou and Fahad Butt and Qian Liu and Yang Wang and Pingzhao Hu},
   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
   year      = {2026}
 }
