@@ -3,9 +3,10 @@
 <p align="center">
   <img src="logo.png" width="500"/>
 </p>
+
 <p align="center">
-  <a href="[ARXIV](https://arxiv.org/abs/2604.03454)">
-    <strong>📄 Read the paper on arXiv</strong>
+  <a href="https://arxiv.org/abs/2604.03454">
+    <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv Paper">
   </a>
 </p>
 
