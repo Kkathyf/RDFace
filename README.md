@@ -3,6 +3,11 @@
 <p align="center">
   <img src="logo.png" width="500"/>
 </p>
+<p align="center">
+  <a href="[ARXIV](https://arxiv.org/abs/2604.03454)">
+    <strong>📄 Read the paper on arXiv</strong>
+  </a>
+</p>
 
 ## Overview
 This repository provides a modular framework for facial image analysis in the context of rare disease diagnosis, specifically tailored for use with the **RDFace** dataset. It supports data preprocessing, classification (few-shot and supervised), synthetic image generation, and LLM-based report generation.
