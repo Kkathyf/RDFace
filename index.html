@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>RDFace: Rare Disease Facial Image Analysis Benchmark</title>
+
+  <meta
+    name="description"
+    content="RDFace is a CVPR 2026 benchmark dataset for rare disease facial image analysis under extreme data scarcity and phenotype-aware synthetic generation."
+  />
+
+  <style>
+    :root {
+      --navy: #0f172a;
+      --slate: #475569;
+      --muted: #64748b;
+      --light: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --purple: #6d28d9;
+      --purple-dark: #4c1d95;
+      --purple-soft: #ede9fe;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --amber: #b45309;
+      --amber-soft: #fef3c7;
+      --red: #b91c1c;
+      --red-soft: #fee2e2;
+      --green: #15803d;
+      --green-soft: #dcfce7;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--navy);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 45%, #ffffff 100%);
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--purple), var(--teal));
+      color: white;
+      font-weight: 900;
+      box-shadow: 0 8px 20px rgba(109, 40, 217, 0.22);
+    }
+
+    .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    }
+
+    .brand-logo img {
+    height: 46px;
+    width: auto;
+    display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav-links a:hover {
+      color: var(--purple);
+    }
+
+    .hero {
+    padding: 58px 0 64px;
+    }
+
+    .hero-centered {
+    text-align: center;
+    max-width: 1040px;
+    }
+
+    .logo-only {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 28px;
+    }
+
+    .logo-only img {
+    width: min(520px, 78vw);
+    height: auto;
+    display: block;
+    }
+
+    .badge-row.centered,
+    .cta-row.centered {
+    justify-content: center;
+    }
+
+    .centered-text {
+    margin-left: auto;
+    margin-right: auto;
+    }
+
+    .hero-centered h1 {
+    max-width: 1060px;
+    margin: 0 auto;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    }
+
+    .hero-centered .subtitle,
+    .subtitle.centered-text {
+    max-width: 980px;
+    margin: 26px auto 0;
+    text-align: center;
+    color: var(--slate);
+    font-size: 19px;
+    line-height: 1.65;
+    }
+
+    .hero-centered .authors {
+    max-width: 900px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    }
+
+    .hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 900px;
+    margin: 34px auto 0;
+    }
+
+    .hero-metrics .metric {
+    text-align: left;
+    min-height: 105px;
+    }
+
+    .hero-metrics .metric strong {
+    font-size: 23px;
+    line-height: 1.12;
+    }
+
+    @media (max-width: 760px) {
+    .hero-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-metrics .metric {
+        text-align: center;
+    }
+
+    .hero-centered h1 {
+        font-size: 36px;
+    }
+    }
+
+    .hero-actions {
+    justify-content: center;
+    gap: 16px;
+    margin-top: 36px;
+    }
+
+    .hero-actions .btn {
+    height: 58px;
+    min-width: 190px;
+    padding: 0 28px;
+    border-radius: 18px;
+    font-size: 17px;
+    font-weight: 950;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    background: white;
+    color: var(--navy);
+    border: 2px solid #94a3b8;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    transition:
+        background 0.16s ease,
+        color 0.16s ease,
+        border-color 0.16s ease,
+        box-shadow 0.16s ease,
+        transform 0.16s ease;
+    }
+
+    .hero-actions .btn:hover {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+    box-shadow: 0 16px 34px rgba(109, 40, 217, 0.30);
+    transform: translateY(-2px);
+    }
+
+    .hero-actions .icon-wrap {
+    position: relative;
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    flex: 0 0 21px;
+    }
+
+    .hero-actions .btn-icon {
+    position: absolute;
+    inset: 0;
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    transition: opacity 0.16s ease;
+    }
+
+    .hero-actions .icon-normal {
+    opacity: 1;
+    }
+
+    .hero-actions .icon-hover {
+    opacity: 0;
+    }
+
+    .hero-actions .btn:hover .icon-normal {
+    opacity: 0;
+    }
+
+    .hero-actions .btn:hover .icon-hover {
+    opacity: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--slate);
+    }
+
+    .badge.purple {
+      background: var(--purple-soft);
+      color: var(--purple);
+      border-color: #ddd6fe;
+    }
+
+    .badge.teal {
+      background: var(--teal-soft);
+      color: var(--teal);
+      border-color: #99f6e4;
+    }
+
+    .badge.amber {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border-color: #fde68a;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 5.8vw, 66px);
+      line-height: 0.98;
+      letter-spacing: -0.058em;
+    }
+
+    .subtitle {
+      margin: 24px 0 0;
+      color: var(--slate);
+      font-size: 19px;
+      max-width: 740px;
+    }
+
+    .authors {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .authors strong {
+      color: var(--navy);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--navy);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      border-color: #c4b5fd;
+    }
+
+    .btn.primary {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+
+    .btn.purple {
+      background: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
+
+    .hero-card {
+      position: relative;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+    display: none;
+    }
+
+    .logo-box {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 220px;
+    margin-bottom: 18px;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    }
+
+    .logo-box img {
+    max-width: min(560px, 100%);
+    height: auto;
+    display: block;
+    }
+
+    .logo-fallback {
+      font-size: 52px;
+      font-weight: 950;
+      letter-spacing: -0.08em;
+      color: var(--purple);
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      border-radius: 20px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 27px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    section {
+      padding: 58px 0;
+    }
+
+    .section-heading {
+      max-width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      color: var(--purple);
+      font-size: 13px;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    h3 {
+      letter-spacing: -0.025em;
+    }
+
+    .section-text {
+      color: var(--slate);
+      font-size: 17px;
+      margin-top: 14px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.045);
+    }
+
+    .card-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--purple-soft);
+      color: var(--purple);
+      font-weight: 950;
+      margin-bottom: 16px;
+    }
+
+    .card-icon.teal {
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+
+    .card-icon.amber {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .card-icon.green {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .card-icon.red {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .access-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      white-space: nowrap;
+    }
+
+    .access-label.red {
+      background: var(--red-soft);
+      color: var(--red);
+      border: 1px solid #fecaca;
+    }
+
+    .access-label.green {
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .card ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .card li {
+      margin: 6px 0;
+    }
+
+    .split {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+    }
+
+    .split .access-card {
+      height: 100%;
+    }
+
+    @media (max-width: 920px) {
+    .split {
+        grid-template-columns: 1fr;
+    }
+    }
+
+    .access-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .access-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .access-card p {
+      color: var(--slate);
+      margin: 0 0 16px;
+    }
+
+    .policy-box {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 22px;
+      padding: 22px;
+      color: #7c2d12;
+      margin-top: 20px;
+    }
+
+    .policy-box strong {
+      color: #7c2d12;
+    }
+
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .dir-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .dir-name {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 900;
+      color: var(--purple-dark);
+      background: var(--purple-soft);
+      padding: 4px 8px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .dir-item p {
+      margin: 0;
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .video-wrapper {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-top: 26px;
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #020617;
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .sample-panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-top: 24px;
+      margin-bottom: 22px;
+    }
+
+    .sample-panel img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .sample-cards {
+      margin-top: 18px;
+    }
+
+    .code-block {
+    position: relative;
+    background: #020617;
+    color: #e2e8f0;
+    border-radius: 22px;
+    margin-top: 18px;
+    overflow: hidden;
+    }
+
+    .code-scroll {
+    overflow-x: auto;
+    padding: 56px 22px 22px;
+    font-size: 13px;
+    line-height: 1.6;
+    }
+
+    .code-scroll code {
+    white-space: pre;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .copy-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    border: 1px solid rgba(226, 232, 240, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    }
+
+    .copy-btn:hover {
+    background: white;
+    color: #020617;
+    border-color: white;
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: var(--light);
+      border: 1px solid var(--border);
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .ack-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: 26px;
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.045);
+      color: var(--slate);
+      font-size: 15px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+
+      .cards,
+      .directory-grid,
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 39px;
+      }
+    }
+  </style>
+</head>
+
+<script>
+  function copyCode(button) {
+    const codeBlock = button.closest(".code-block");
+    const code = codeBlock.querySelector("code");
+    const text = code.innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const oldText = button.innerText;
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = oldText;
+      }, 1400);
+    });
+  }
+</script>
+
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand brand-logo" href="#">
+        <img src="logo-wide.png" alt="RDFace logo" />
+      </a>
+
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#dataset">Dataset Access</a>
+        <a href="#video">Video</a>
+        <a href="#citation">Citation</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-centered">
+
+      <div class="badge-row centered">
+        <span class="badge purple">CVPR 2026</span>
+        <span class="badge teal">Hightlight</span>
+        <span class="badge amber">Rare Disease Facial Analysis</span>
+      </div>
+
+      <h1>RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation</h1>
+
+      <p class="subtitle centered-text">
+        Official repository for the CVPR 2026 accepted paper. RDFace provides a modular framework for rare disease facial image analysis, supporting data preprocessing, supervised classification, few-shot learning, synthetic image generation, and LLM-based report generation.
+      </p>
+
+      <p class="authors centered-text">
+        Ganlin Feng<sup>1</sup>, Yuxi Long<sup>1</sup>, Hafsa Ali<sup>2</sup>, Erin Lou<sup>3</sup>,
+        Fahad Butt<sup>1</sup>, Qian Liu<sup>4</sup>, Yang Wang<sup>2</sup>, Pingzhao Hu<sup>1,3,*</sup>
+        <br />
+        <sup>1</sup>Western University,
+        <sup>2</sup>Concordia University,
+        <sup>3</sup>University of Toronto,
+        <sup>4</sup>University of Winnipeg
+        <br />
+        <sup>*</sup>Correspondence:
+        <a href="mailto:phu49@uwo.ca">phu49@uwo.ca</a>
+      </p>
+
+      <div class="cta-row centered hero-actions">
+        <a class="btn" href="https://arxiv.org/abs/2604.03454" target="_blank">
+            <span class="icon-wrap">
+            <img class="btn-icon icon-normal" src="https://cdn.simpleicons.org/arxiv/B31B1B" alt="" />
+            <img class="btn-icon icon-hover" src="https://cdn.simpleicons.org/arxiv/FFFFFF" alt="" />
+            </span>
+            <span>Paper</span>
+        </a>
+
+        <a class="btn" href="https://github.com/Kkathyf/RDFace" target="_blank">
+            <span class="icon-wrap">
+            <img class="btn-icon icon-normal" src="https://cdn.simpleicons.org/github/0F172A" alt="" />
+            <img class="btn-icon icon-hover" src="https://cdn.simpleicons.org/github/FFFFFF" alt="" />
+            </span>
+            <span>Code</span>
+        </a>
+
+        <a class="btn" href="#dataset">
+            <span>Dataset Access</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Overview</div>
+          <h2>A modular benchmark for rare disease facial image analysis.</h2>
+          <p class="section-text">
+            This repository provides a modular framework for facial image analysis in the context of rare disease diagnosis,
+            specifically tailored for use with the <strong>RDFace</strong> dataset. It supports data preprocessing,
+            supervised classification, few-shot learning, synthetic image generation, and LLM-based report generation.
+          </p>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="card-icon">01</div>
+            <h3>Data preprocessing</h3>
+            <p>
+              Utilities for preparing pediatric facial images and analyzing synthetic images for downstream benchmarking.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon teal">02</div>
+            <h3>Classification</h3>
+            <p>
+              Supports conventional supervised learning and few-shot classification for rare disease facial phenotype recognition.
+            </p>
+          </div>
+
+          <div class="card">
+            <div class="card-icon amber">03</div>
+            <h3>Synthetic generation</h3>
+            <p>
+              Includes synthetic image generation modules for identity- and phenotype-consistent data generation in low-data settings.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dataset">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Dataset Access</div>
+          <h2>Hybrid release model for synthetic and real facial images.</h2>
+          <p class="section-text">
+            RDFace includes both <strong>real pediatric facial images</strong> and <strong>synthetic data</strong>.
+            Due to privacy considerations, the dataset is released under a hybrid access model.
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="access-card">
+            <div class="access-label green">Open Access</div>
+            <h3>RDFace-Syn</h3>
+            <p>
+              The synthetic dataset is freely available for research and benchmarking.
+            </p>
+            <a class="btn primary" href="https://www.kaggle.com/datasets/ganlinfenggg/rdface-synthetic-data" target="_blank">
+              RDFace-Syn on Kaggle
+            </a>
+
+            <ul>
+              <li>Freely available for research use</li>
+              <li>Designed for benchmarking under data scarcity</li>
+              <li>Useful for synthetic-only and synthetic-assisted experiments</li>
+            </ul>
+          </div>
+
+          <div class="access-card">
+            <div class="access-label red">Controlled Access</div>
+            <h3>RDFace-Real</h3>
+            <p>
+              The real dataset contains identifiable facial images and is distributed under controlled access.
+            </p>
+            <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLSfcakuM938g_8gGv1nKpPCOlgEyeNgFvvGW2ieCpnMFmh5Zyg/viewform?usp=dialog" target="_blank">
+              Request RDFace-Real
+            </a>
+
+            <ul>
+              <li>Approved users will receive a <strong>Research ID</strong></li>
+              <li>Access is granted only for approved research purposes</li>
+              <li>Ethics approval, such as REB or IRB approval, is required</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="policy-box">
+          <strong>Usage Policy:</strong>
+          Do not share or redistribute the data. Do not attempt re-identification. The dataset must be acknowledged in research outputs.
+          Any use without a valid Research ID is considered unauthorized.
+        </div>
+      </div>
+    </section>
+
+    <section id="video">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Project Video</div>
+          <h2>Watch the RDFace overview video.</h2>
+          <p class="section-text">
+            This video introduces the motivation, dataset construction, benchmark design, and synthetic data generation components of RDFace.
+          </p>
+        </div>
+
+        <div class="video-wrapper">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/Dg0z7WEtrb0"
+              title="RDFace project video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Reference</div>
+          <h2>Cite RDFace.</h2>
+          <p class="section-text">
+            Please cite our paper if you use RDFace, its synthetic data, benchmark splits, or related code.
+          </p>
+        </div>
+
+        <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code">
+            Copy
+        </button>
+
+        <div class="code-scroll">
+            <code>@inproceedings{rdface2026,
+        title     = {RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation},
+        author    = {Ganlin Feng and Yuxi Long and Hafsa Ali and Erin Lou and Fahad Butt and Qian Liu and Yang Wang and Pingzhao Hu},
+        booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+        year      = {2026}
+        }</code>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="acknowledgement">
+      <div class="container">
+        <div class="section-heading">
+          <div class="eyebrow">Acknowledgement</div>
+          <h2>Funding, ethics, and data sources.</h2>
+        </div>
+
+        <div class="ack-box">
+          This work was supported in part by the Canada Research Chairs Tier II Program
+          <strong>CRC-2021-00482</strong> and the Canada Foundation for Innovation John R. Evans Leaders Fund
+          <strong>JELF #43481</strong>. All data collection procedures were approved by the Western University
+          Health Science Research Ethics Board <strong>HSREB Reference No. 2023-122744-77394</strong>.
+          Facial photographs of children with rare diseases were collected from publicly available sources,
+          including the published literature and foundation websites, and we gratefully acknowledge these sources.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        © 2026 RDFace Project. Official repository for the CVPR 2026 accepted paper.
+      </div>
+
+      <div>
+        <a href="https://arxiv.org/abs/2604.03454" target="_blank">Paper</a>
+        ·
+        <a href="https://github.com/Kkathyf/RDFace" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
