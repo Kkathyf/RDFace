@@ -1,14 +1,21 @@
+<div align="center">
+
 # RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation
 
 <p align="center">
   <img src="logo.png" width="500"/>
 </p>
 
-<p align="center">
-  <a href="https://arxiv.org/abs/2604.03454">
-    <img src="https://img.shields.io/badge/arXiv-Paper-b31b1b.svg" alt="arXiv Paper">
-  </a>
-</p>
+### 🎉 Accepted by CVPR 2026 (Hightlight ✨）
+
+[![CVPR 2026 Highlight](https://img.shields.io/badge/CVPR_2026-Highlight-FFB000)](https://cvpr.thecvf.com/virtual/2026/poster/38967)
+[![arXiv](https://img.shields.io/badge/arXiv-2512.00995-b31b1b.svg)](https://arxiv.org/abs/2604.03454)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://kkathyf.github.io/RDFace/)
+
+
+**Ganlin Feng, Yuxi Long, Hafsa Moontari Ali, Erin Lou, Fahad Butt, Qian Liu, Yang Wang, Pingzhao Hu***
+
+</div>
 
 ## Overview
 Official repository for the CVPR 2026 accepted paper. This repository provides a modular framework for facial image analysis in the context of rare disease diagnosis, specifically tailored for use with the **RDFace** dataset. It supports data preprocessing, classification (few-shot and supervised), synthetic image generation, and LLM-based report generation.
@@ -80,11 +87,13 @@ After downloading, place the weight file (e.g., `vgg_face.pth`) in folder `model
 
 ## Reference
 ```bash
-@inproceedings{rdface2026,
-  title     = {RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation},
-  author    = {Ganlin Feng and Yuxi Long and Hafsa Ali and Erin Lou and Fahad Butt and Qian Liu and Yang Wang and Pingzhao Hu},
-  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-  year      = {2026}
+@InProceedings{Feng_2026_CVPR,
+    author    = {Feng, Ganlin and Long, Yuxi and Ali, Hafsa and Lou, Erin and Butt, Fahad and Liu, Qian and Wang, Yang and Hu, Pingzhao},
+    title     = {RDFace: A Benchmark Dataset for Rare Disease Facial Image Analysis under Extreme Data Scarcity and Phenotype-Aware Synthetic Generation},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2026},
+    pages     = {42976-42986}
 }
 ```
 
